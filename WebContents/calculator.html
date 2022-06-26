@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>계산기</title>
+
+<style>
+  body {-webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;}
+  table {border-collapse: collapse; background-color: #000000; width: 320px; height: 500px;}
+  table td {text-align: center; font-size: 30px; font-weight: bold; height: 88px; border: 2px solid #000000;}
+  table .number {background-color: #646464;}
+  table .number:active {background-color: #505050;}
+  table .calcul {background-color: #F0B023;}
+  table .calcul:active {background-color: #E0A013;}
+  table .equals {background-color: #FF9023;}
+  table .equals:active {background-color: #F08000;}
+  table .etc {background-color: #a9a8a8;}
+  table .etc:active {background-color: #999898;}
+
+  table #result {margin: 0px; padding: 10px 15px; width: 300px; height: 60px; background-color: #000000; border: 0px; color: #ffffff; font-size: 35px; text-align: right;}
+</style>
+
+</head>
+
+<body>
+
+  <table>
+      <colgroup>
+        <col width="24%">
+        <col width="24%">
+        <col width="24%">
+        <col width="28%">
+      </colgroup>
+      <tr>
+        <td colspan="4" id="result">0</td>
+      </tr>
+      <tr>
+        <td id="power" class="etc">x<sup>y</sup></td>
+        <td id="root" class="etc">√</td>
+        <td id="delete" class="etc">del</td>
+        <td id="equals" class="equals">=</td>
+      </tr>
+      <tr>
+        <td id="one" class="number">1</td>
+        <td id="two" class="number">2</td>
+        <td id="three" class="number">3</td>
+        <td id="plus" class="calcul">＋</td>
+      </tr>
+      <tr>
+        <td id="four" class="number">4</td>
+        <td id="five" class="number">5</td>
+        <td id="six" class="number">6</td>
+        <td id="min" class="calcul">－</td>
+      </tr>
+      <tr>
+        <td id="seven" class="number">7</td>
+        <td id="eight" class="number">8</td>
+        <td id="nine" class="number">9</td>
+        <td id="mul" class="calcul">×</td>
+      </tr>
+      <tr>
+        <td id="reset" class="etc">C</td>
+        <td id="zero" class="number">0</td>
+        <td id="dot" class="etc">.</td>
+        <td id="div" class="calcul">÷</td>
+      </tr>
+  </table>
+
+</body>
+
+<script type="text/javascript">
+  window.onload = function() {
+    var answer = "";
+    var temp = "";
+    var status = "";
+
+    var result = document.getElementById("result");
+
+    var one = document.getElementById("one");
+    var two = document.getElementById("two");
+    var three = document.getElementById("three");
+    var four = document.getElementById("four");
+    var five = document.getElementById("five");
+    var six = document.getElementById("six");
+    var seven = document.getElementById("seven");
+    var eight = document.getElementById("eight");
+    var nine = document.getElementById("nine");
+    var zero = document.getElementById("zero");
+
+    var dot = document.getElementById("dot");
+    var del = document.getElementById("delete");
+
+    var plus = document.getElementById("plus");
+    var min = document.getElementById("min");
+    var mul = document.getElementById("mul");
+    var div = document.getElementById("div");
+
+    var equals = document.getElementById("equals");
+    var root = document.getElementById("root");
+    var power = document.getElementById("power");
+
+    var reset = document.getElementById("reset");
+
+
+    function num(n) {
+      temp = temp + n;
+      if (temp == "0") {
+        temp = "";
+      } else if (temp.length > 14) {
+        if (temp.indexOf(".") != -1 && temp.indexOf(".") < 14) {
+          temp = temp.substr(0, 14);
+        } else {
+          temp = "-1";
+        }
+      }
+
+      if (temp == "") {
+        result.innerHTML = 0;
+      } else if (temp == "-1") {
+        result.innerHTML = "error"
+        temp = ""
+        answer = ""
+      } else {
+        result.innerHTML = temp;
+      }
+      console.log("temp " + temp + ", answer " + answer);
+    }
+
+
+    dot.onclick = function() {
+      if (temp == "") {
+        temp = "0.";
+      } else {
+        temp = temp + ".";
+      }
+      result.innerHTML = temp;
+    }
+
+
+    del.onclick = function() {
+      if (temp != "") {
+        temp = temp.substr(0, temp.length-1);
+      }
+
+      if (temp == "") {
+        result.innerHTML = 0;
+      } else {
+        result.innerHTML = temp;
+      }
+    }
+
+
+    root.onclick = function() {
+        if (temp == "" && answer == "") {
+        result.innerHTML = 0;
+      } else {
+        if (temp != "") {
+          calcul("=");
+        }
+        answer = Math.sqrt(parseFloat(answer));
+        answer = Math.round(answer * 100000000)/100000000;
+        answer = answer.toString();
+        result.innerHTML = answer;
+      }
+    }
+
+
+    one.onclick = function() {
+      num("1");
+    }
+
+
+    two.onclick = function() {
+      num("2");
+    }
+
+    three.onclick = function() {
+      num("3");
+    }
+
+
+    four.onclick = function() {
+      num("4");
+    }
+
+
+    five.onclick = function() {
+      num("5");
+    }
+
+
+    six.onclick = function() {
+      num("6");
+    }
+
+
+    seven.onclick = function() {
+      num("7");
+    }
+
+
+    eight.onclick = function() {
+      num("8");
+    }
+
+
+    nine.onclick = function() {
+      num("9");
+    }
+
+
+    zero.onclick = function() {
+      num("0");
+    }
+
+
+    function calcul(x) {
+      if (temp == "") {
+
+      } else if (answer != "") {
+        switch (status) {
+          case "+":
+            answer = (parseFloat(answer) * 10 + parseFloat(temp) * 10) / 10;
+            break;
+          case "-":
+            answer = (parseFloat(answer) * 10 - parseFloat(temp) * 10) / 10;
+            break;
+          case "/":
+            answer = parseFloat(answer) / parseFloat(temp);
+            break;
+          case "*":
+            answer = parseFloat(answer) * parseFloat(temp);
+            break;
+          case "pow":
+            answer = parseFloat(answer) ** parseFloat(temp);
+            answer = Math.round(answer * 10000000000)/10000000000;
+        }
+        answer = answer.toString();
+      } else {
+        answer = temp;
+      }
+
+      switch (x) {
+        case "+":
+          status = "+";
+          break;
+        case "-":
+          status = "-";
+          break;
+        case "/":
+          status = "/";
+          break;
+        case "*":
+          status = "*";
+          break;
+        case "=":
+          status = "";
+          break;
+        case "pow":
+          status = "pow";
+          break;
+      }
+      temp = "";
+
+      if (answer == "") {
+        result.innerHTML = 0;
+      } else if (answer.length > 14) {
+        if (answer.indexOf(".") != -1 && answer.indexOf(".") < 14) {
+          answer = answer.substr(0, 14);
+          result.innerHTML = answer;
+        } else {
+          result.innerHTML = "error";
+          answer = ""
+          status = ""
+        }
+      } else {
+        result.innerHTML = answer;
+      }
+      console.log("temp " + temp + ", answer " + answer + ", status " + status);
+    }
+
+
+    power.onclick = function() {
+      calcul("=");
+      calcul("pow")
+    }
+
+
+    plus.onclick = function() {
+      calcul("+");
+    }
+
+
+    min.onclick = function() {
+      calcul("-");
+    }
+
+
+    mul.onclick = function() {
+      calcul("*");
+    }
+
+
+    div.onclick = function() {
+      calcul("/");
+    }
+
+
+    equals.onclick = function() {
+      calcul("=");
+    }
+
+
+    reset.onclick = function() {
+      answer = "";
+      temp = "";
+
+      result.innerHTML = 0;
+    }
+
+  }
+
+</script>
+</head>
+</html>

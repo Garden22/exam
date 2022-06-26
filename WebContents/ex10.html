@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+	<div>
+		<button id="btn" name="test" value=0>js테스트버튼</button>
+		<h1 id="display">이름 출력영역</h1>
+	</div>
+</body>
+
+<script type="text/javascript">
+	window.onload = function() {
+		var testButton = document.getElementById("btn");
+		var testArea = document.getElementById("display");
+		
+		console.log(testArea);
+		testButton.onclick = function() {
+			if (testButton.value == 0) {
+				testArea.innerHTML = "<font color='red'>홍길동</font>";
+				testButton.value = 1;
+			} else {
+				testArea.innerHTML = "<font color='blue'>홍길동</font>";
+				testButton.value = 0;
+			}
+		}
+	}
+
+
+	test = function() {
+		console.log("test 1 함수임")
+	}
+	
+	function test() {
+		console.log("test 2 함수임")	
+	}
+	
+	test()
+	
+	
+	
+	sum = plus(1, 3)
+	
+	function plus(a, b) {
+		console.log(a+b)
+	}
+	
+	name = "global"
+
+	function checkscope() {
+		var name = "local"
+		console.log(name)
+	}
+	
+	checkscope()
+	console.log(name)
+	
+	var array = [];
+	array[0] = 1;
+	array[1] = 2.5;
+	array[2] = "안녕";
+	array[4] = "hello!!";
+	
+	console.log(array)
+	
+	var guestbookVo= {
+		name : "황일영",
+		password : "1234",
+		content: "안녕하세요첫번째방문",
+		
+		showInfo: function(){
+			console.log(this.name + ", "+ this.password+ ", "+ this.content)
+		}
+	};
+	
+	var name = guestbookVo.name;
+	console.log(name);
+	var password = guestbookVo["password"];
+	console.log(password);
+	guestbookVo.showInfo();
+	
+	
+	
+</script>
+</html>
