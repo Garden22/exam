@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript" src="./jquery-1.12.4.js"></script>
+
+</head>
+<body>
+	<button id="btn" name="test" value=0>js테스트버튼</button>
+	<h1 id="display">이름 출력영역</h1>
+
+</body>
+
+<script type="text/javascript">
+	var testButton = $("#btn");
+	var testArea = $("#display");
+	
+	console.log("testButton");
+	
+	testButton.on("click", function(){
+		console.log("클릭 jquery");
+		
+		testArea.html("<font color='blue'>어휴</font>");
+	});
+</script>
+
+</html>
